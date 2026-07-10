@@ -20,7 +20,7 @@ export default function AddItemPage() {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [price, setPrice] = useState('');
   const [priority, setPriority] = useState('medium');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrls, setImageUrls] = useState<string[]>(['']);
   const [location, setLocation] = useState(LOCATIONS[0]);
 
   const [loading, setLoading] = useState(false);
@@ -55,7 +55,8 @@ export default function AddItemPage() {
         category,
         price: Number(price),
         priority,
-        imageUrl: imageUrl.trim() || undefined,
+        imageUrl: cleanedUrls[0] || undefined,
+        imageUrls: cleanedUrls,
         location
       };
 
