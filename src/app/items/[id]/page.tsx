@@ -25,7 +25,10 @@ export default function ItemDetailsPage() {
   const [inquireSuccess, setInquireSuccess] = useState(false);
   const [inquireText, setInquireText] = useState('');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+  const [reviewError, setReviewError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchItemDetails = async () => {
@@ -161,6 +164,30 @@ export default function ItemDetailsPage() {
     if (container) {
       container.scrollBy({ left: 200, behavior: 'smooth' });
     }
+  };
+
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+    setSubmittingReview(true);
+    setReviewError(null);
+    try {
+      const res = await apiFetch(`/items/${itemId}/reviews`, {
+        method: 'POST',
+        body: JSON.stringify({ rating: reviewRating, comment: reviewComment })
+      });
+      if (res.item) {
+        setItem(res.item);
+        setReviewComment('');
+        setReviewRating(5);
+      }
+    } catch (err: any) {
+      setReviewError(err.message || 'Failed to submit review');
+    }
+    setSubmittingReview(false);
   };
 
   const reviews = item?.reviews || [];
@@ -397,17 +424,99 @@ export default function ItemDetailsPage() {
               </div>
             </div>
 
-            {/* Mock Review */}
+            {/* Review List */}
             <div className="space-y-4 pt-2">
-              <div className="p-4 bg-slate-950/40 rounded-xl border border-white/5 text-xs space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-white">Alex Mercer</span>
-                  <span className="text-yellow-400">★★★★★</span>
+              {reviews.length === 0 ? (
+                <div className="p-6 text-center bg-slate-950/20 rounded-xl border border-dashed border-white/5 text-xs text-slate-500">
+                  No reviews yet. Be the first to leave a review for this gadget!
                 </div>
-                <p className="text-slate-400 leading-relaxed">
-                  Excellent condition as advertised. Quick coordination with the seller. The spec sheet matched perfectly!
+              ) : (
+                reviews.map((rev: any, idx: number) => (
+                  <div key={idx} className="p-4 bg-slate-950/40 rounded-xl border border-white/5 text-xs space-y-2 animate-fadeIn">
+                    <div className="flex justify-between items-center">
+                      <div className="flex flex-col">
+                        <span className="font-bold text-white">{rev.userName}</span>
+                        <span className="text-[9px] text-slate-500">
+                          {rev.createdAt ? new Date(rev.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : 'Just now'}
+                        </span>
+                      </div>
+                      <span className="text-yellow-450 font-bold flex">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <span key={i} className={i < rev.rating ? 'text-yellow-405' : 'text-slate-800'}>★</span>
+                        ))}
+                      </span>
+                    </div>
+                    <p className="text-slate-400 leading-relaxed whitespace-pre-line">
+                      {rev.comment}
+                    </p>
+                  </div>
+                ))
+              )}
+            </div>
+
+            {/* Leave a Review Form */}
+            <div className="bg-[#0e1017] p-5 rounded-2xl border border-white/5 space-y-4 mt-6">
+              <h3 className="text-sm font-bold text-white flex items-center space-x-2">
+                <Star className="h-4.5 w-4.5 text-yellow-400 fill-yellow-400" />
+                <span>Write a Product Review</span>
+              </h3>
+
+              {!user ? (
+                <p className="text-xs text-slate-400">
+                  You must be logged in to leave a rating and review.{' '}
+                  <Link href="/login" className="text-indigo-400 font-bold hover:underline">
+                    Login here
+                  </Link>
+                  .
                 </p>
-              </div>
+              ) : (
+                <form onSubmit={handleReviewSubmit} className="space-y-3.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-300 font-semibold">Your Rating:</span>
+                    <div className="flex space-x-1">
+                      {Array.from({ length: 5 }).map((_, idx) => {
+                        const starVal = idx + 1;
+                        return (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => setReviewRating(starVal)}
+                            className={`text-xl transition-all duration-150 active:scale-125 hover:text-yellow-400 ${starVal <= reviewRating ? 'text-yellow-400' : 'text-slate-700'
+                              }`}
+                          >
+                            ★
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <textarea
+                      rows={3}
+                      required
+                      placeholder="Share your experience with this tech product, its condition, pricing relevance, or the seller's transparency..."
+                      value={reviewComment}
+                      onChange={(e) => setReviewComment(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-950/60 rounded-xl border border-white/10 text-white placeholder-slate-650 text-xs focus:outline-none focus:border-yellow-500/50"
+                    />
+                  </div>
+
+                  {reviewError && (
+                    <div className="p-2 bg-rose-500/10 border border-rose-500/20 rounded-lg text-rose-450 text-xxs flex items-center space-x-1">
+                      <span>⚠️ {reviewError}</span>
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={submittingReview}
+                    className="w-full py-2 bg-indigo-650 hover:bg-indigo-600 active:scale-98 text-xs font-bold text-white rounded-xl shadow-md transition-all disabled:opacity-50"
+                  >
+                    {submittingReview ? 'Submitting Review...' : 'Publish Rating & Review'}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
