@@ -23,7 +23,7 @@ export default function ItemDetailsPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [inquireSuccess, setInquireSuccess] = useState(false);
   const [inquireText, setInquireText] = useState('');
-
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchItemDetails = async () => {
@@ -161,7 +161,7 @@ export default function ItemDetailsPage() {
     }
   };
 
-  const images = [item.imageUrl || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800'];
+  const images = item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls : [item.imageUrl || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800'];
   const seller = item.ownerId || { name: 'Verified Seller', email: 'seller@nexmart.com' };
   const tempImages = item.imageUrls && item.imageUrls.length > 0
     ? item.imageUrls
@@ -190,7 +190,7 @@ export default function ItemDetailsPage() {
             onMouseLeave={handleMouseLeave}
           >
             <img
-              src={item.imageUrl}
+              src={images[activeImageIndex]}
               alt={item.title}
               className="w-70% h-full mx-auto transition-transform duration-150 ease-out pointer-events-none"
             />
@@ -200,16 +200,26 @@ export default function ItemDetailsPage() {
               </span>
             )}
           </div>
-          {/* Mock Gallery list */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="aspect-video bg-white/5 rounded-xl border border-white/10 overflow-hidden cursor-pointer hover:border-indigo-400/50 transition-colors">
-              <img src={item.imageUrl} className="w-full h-full object-cover opacity-70 hover:opacity-100 transition-opacity" />
-            </div>
-            <div className="aspect-video bg-white/5 rounded-xl border border-white/10 overflow-hidden cursor-pointer hover:border-indigo-400/50 transition-colors flex items-center justify-center text-slate-500 hover:text-white">
-              <Compass className="h-6 w-6" />
-            </div>
-            <div className="aspect-video bg-white/5 rounded-xl border border-white/10 overflow-hidden cursor-pointer hover:border-indigo-400/50 transition-colors flex items-center justify-center text-slate-500 hover:text-white">
-              <Star className="h-6 w-6" />
+          {/* Gallery Carousel */}
+          <div className="relative flex items-center justify-between group/gallery px-6">
+            <div 
+              id="thumbnail-container"
+              className="flex space-x-4 overflow-x-auto scrollbar-none scroll-smooth w-full py-1"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {images.map((imgUrl: string, idx: number) => (
+                <div 
+                  key={idx}
+                  onClick={() => setActiveImageIndex(idx)}
+                  className={`flex-shrink-0 aspect-video w-[31%] md:w-[31.5%] bg-white/5 rounded-xl border overflow-hidden cursor-pointer transition-all ${
+                    activeImageIndex === idx 
+                      ? 'border-indigo-500 scale-[1.02] shadow-lg shadow-indigo-500/10 opacity-100' 
+                      : 'border-white/10 opacity-70 hover:opacity-100 hover:border-indigo-400/50'
+                  }`}
+                >
+                  <img src={imgUrl} className="w-full h-full object-cover" />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -314,7 +324,7 @@ export default function ItemDetailsPage() {
               <div className="text-center">
                 <span className="text-4xl font-black text-indigo-300">{Number(item.rating || 5).toFixed(1)}</span>
                 <span className="text-xxs text-slate-400 block mt-1 uppercase font-bold">Out of 5.0</span>
-                <div className="flex text-yellow-555 justify-center space-x-0.5 mt-2">
+                <div className="flex text-yellow-550 justify-center space-x-0.5 mt-2">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <span key={i} className="text-xs">★</span>
                   ))}
