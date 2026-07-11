@@ -22,7 +22,7 @@ export default function EditItemPage() {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [price, setPrice] = useState('');
   const [priority, setPriority] = useState('medium');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrls, setImageUrls] = useState<string[]>(['']);
   const [location, setLocation] = useState(LOCATIONS[0]);
 
   // UI States
@@ -104,7 +104,8 @@ export default function EditItemPage() {
         category,
         price: Number(price),
         priority,
-        imageUrl: imageUrl.trim() || undefined,
+        imageUrl: cleanedUrls[0] || undefined,
+        imageUrls: cleanedUrls,
         location
       };
 
