@@ -163,6 +163,29 @@ export default function ItemDetailsPage() {
     }
   };
 
+  const reviews = item?.reviews || [];
+  const totalReviews = reviews.length;
+
+  const avgRating = totalReviews > 0
+    ? reviews.reduce((sum: number, r: any) => sum + r.rating, 0) / totalReviews
+    : Number(item?.rating || 5);
+
+  const ratingDistribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+  reviews.forEach((r: any) => {
+    const rate = Math.round(r.rating) as 5 | 4 | 3 | 2 | 1;
+    if (ratingDistribution[rate] !== undefined) {
+      ratingDistribution[rate]++;
+    }
+  });
+
+  const getPercent = (stars: number) => {
+    if (totalReviews === 0) {
+      if (stars === 5) return 100;
+      return 0;
+    }
+    return Math.round((ratingDistribution[stars as 5 | 4 | 3 | 2 | 1] / totalReviews) * 100);
+  };
+
   const seller = item.ownerId || { name: 'Verified Seller', email: 'seller@nexmart.com' };
   const images = item.imageUrls && item.imageUrls.length > 0
     ? item.imageUrls
@@ -252,7 +275,7 @@ export default function ItemDetailsPage() {
               <span className="text-slate-500 text-xs">•</span>
               <span className="flex items-center space-x-1 text-xs text-yellow-400 font-semibold">
                 <span>★</span>
-                <span>{Number(item.rating || 5).toFixed(1)} Rating</span>
+                <span>{Number(avgRating).toFixed(1)} Rating ({totalReviews} reviews)</span>
               </span>
             </div>
 
@@ -338,32 +361,39 @@ export default function ItemDetailsPage() {
             <h2 className="text-lg font-bold text-white uppercase tracking-wider border-b-2 border-indigo-500 pb-2 inline-block">
               Ratings & Reviews
             </h2>
-            <div className="glass-card rounded-2xl p-6 border border-white/5 flex flex-col md:flex-row items-center justify-around gap-6">
+            <div className="glass-card rounded-2xl p-6 border border-white/5 flex flex-col md:flex-row items-center justify-around gap-6 animate-fadeIn">
               <div className="text-center">
-                <span className="text-4xl font-black text-indigo-300">{Number(item.rating || 5).toFixed(1)}</span>
+                <span className="text-4xl font-black text-indigo-300">{Number(avgRating).toFixed(1)}</span>
                 <span className="text-xxs text-slate-400 block mt-1 uppercase font-bold">Out of 5.0</span>
-                <div className="flex text-yellow-550 justify-center space-x-0.5 mt-2">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <span key={i} className="text-xs">★</span>
-                  ))}
+                <div className="flex text-yellow-555 justify-center space-x-0.5 mt-2">
+                  {Array.from({ length: 5 }).map((_, i) => {
+                    const starVal = i + 1;
+                    return (
+                      <span key={i} className={`text-xs ${starVal <= Math.round(avgRating) ? 'text-yellow-400' : 'text-slate-700'}`}>
+                        ★
+                      </span>
+                    );
+                  })}
                 </div>
+                <span className="text-[10px] text-slate-500 block mt-1.5 uppercase tracking-wider font-bold">
+                  {totalReviews} {totalReviews === 1 ? 'Review' : 'Reviews'}
+                </span>
               </div>
               <div className="flex-grow space-y-2 max-w-xs w-full text-xxs text-slate-400">
-                <div className="flex items-center space-x-2">
-                  <span>5 ★</span>
-                  <div className="h-1.5 bg-slate-800 rounded-full flex-grow overflow-hidden"><div className="h-full bg-indigo-500 w-[90%]"></div></div>
-                  <span>90%</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span>4 ★</span>
-                  <div className="h-1.5 bg-slate-800 rounded-full flex-grow overflow-hidden"><div className="h-full bg-indigo-500 w-[10%]"></div></div>
-                  <span>10%</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span>3 ★</span>
-                  <div className="h-1.5 bg-slate-800 rounded-full flex-grow overflow-hidden"><div className="h-full bg-indigo-500 w-[0%]"></div></div>
-                  <span>0%</span>
-                </div>
+                {[5, 4, 3, 2, 1].map((stars) => {
+                  const percent = getPercent(stars);
+                  return (
+                    <div key={stars} className="flex items-center space-x-2">
+                      <span className="w-16 flex-shrink-0 text-left text-yellow-400 tracking-tighter text-[9px]">
+                        {'★'.repeat(stars)}
+                      </span>
+                      <div className="h-1.5 bg-slate-850 rounded-full flex-grow overflow-hidden">
+                        <div className="h-full bg-indigo-500 transition-all duration-500" style={{ width: `${percent}%` }}></div>
+                      </div>
+                      <span className="w-8 flex-shrink-0 text-left">{percent}%</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
