@@ -243,12 +243,16 @@ export default function RegisterPage() {
     setSocialLoading(provider);
 
     try {
-      await authClient.signIn.social({
+      const { error: resError } = await authClient.signIn.social({
         provider,
         callbackURL: '/'
       });
+      if (resError) {
+        setError(resError.message || `Social login with ${provider} failed.`);
+      }
     } catch (err: any) {
       setError(err.message || `Social login with ${provider} failed.`);
+    } finally {
       setSocialLoading(null);
     }
   };
