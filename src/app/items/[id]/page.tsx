@@ -7,7 +7,8 @@ import { apiFetch } from '../../../utils/api';
 import { useAuth } from '../../../context/AuthContext';
 import {
   ArrowLeft, MapPin, Tag, User, Calendar, ShieldCheck,
-  MessageSquare, Star, Heart, Share2, Compass, AlertCircle
+  MessageSquare, Star, Heart, Share2, Compass, AlertCircle,
+  ChevronLeft, ChevronRight
 } from 'lucide-react';
 
 export default function ItemDetailsPage() {
@@ -24,6 +25,7 @@ export default function ItemDetailsPage() {
   const [inquireSuccess, setInquireSuccess] = useState(false);
   const [inquireText, setInquireText] = useState('');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+
 
   useEffect(() => {
     const fetchItemDetails = async () => {
@@ -161,9 +163,8 @@ export default function ItemDetailsPage() {
     }
   };
 
-  const images = item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls : [item.imageUrl || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800'];
   const seller = item.ownerId || { name: 'Verified Seller', email: 'seller@nexmart.com' };
-  const tempImages = item.imageUrls && item.imageUrls.length > 0
+  const images = item.imageUrls && item.imageUrls.length > 0
     ? item.imageUrls
     : [item.imageUrl || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800'];
 
@@ -202,25 +203,42 @@ export default function ItemDetailsPage() {
           </div>
           {/* Gallery Carousel */}
           <div className="relative flex items-center justify-between group/gallery px-6">
-            <div 
+            {images.length > 3 && (
+              <button
+                onClick={scrollLeft}
+                className="absolute left-0 z-10 p-1.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors shadow-lg"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+            )}
+
+            <div
               id="thumbnail-container"
               className="flex space-x-4 overflow-x-auto scrollbar-none scroll-smooth w-full py-1"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {images.map((imgUrl: string, idx: number) => (
-                <div 
+                <div
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`flex-shrink-0 aspect-video w-[31%] md:w-[31.5%] bg-white/5 rounded-xl border overflow-hidden cursor-pointer transition-all ${
-                    activeImageIndex === idx 
-                      ? 'border-indigo-500 scale-[1.02] shadow-lg shadow-indigo-500/10 opacity-100' 
-                      : 'border-white/10 opacity-70 hover:opacity-100 hover:border-indigo-400/50'
-                  }`}
+                  className={`flex-shrink-0 aspect-video w-[31%] md:w-[31.5%] bg-white/5 rounded-xl border overflow-hidden cursor-pointer transition-all ${activeImageIndex === idx
+                    ? 'border-indigo-500 scale-[1.02] shadow-lg shadow-indigo-500/10 opacity-100'
+                    : 'border-white/10 opacity-70 hover:opacity-100 hover:border-indigo-400/50'
+                    }`}
                 >
                   <img src={imgUrl} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
+
+            {images.length > 3 && (
+              <button
+                onClick={scrollRight}
+                className="absolute right-0 z-10 p-1.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors shadow-lg"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            )}
           </div>
         </div>
 
