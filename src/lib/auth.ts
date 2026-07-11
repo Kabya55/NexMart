@@ -16,6 +16,12 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  socialProviders: {
+    facebook: {
+      clientId: process.env.FACEBOOK_CLIENT_ID as string,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
+    },
+  },
   advanced: {
     cookies: {
       session_token: {
@@ -25,18 +31,4 @@ export const auth = betterAuth({
       }
     }
   },
-  user: {
-    additionalFields: {
-      role: {
-        type: "string",
-        defaultValue: "user",
-        input: false,
-      },
-      watchlist: {
-        type: "string[]",
-        defaultValue: [],
-        input: false,
-      }
-    }
-  }
 });
