@@ -55,7 +55,7 @@ export default function LoginPage() {
     <div className="flex-grow flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-3xl -z-10"></div>
-      
+
       <div className="max-w-md w-full space-y-8 glass-card rounded-2xl p-8 border border-white/10 shadow-2xl">
         {/* Brand Header */}
         <div className="text-center space-y-2">
@@ -168,33 +168,6 @@ export default function LoginPage() {
                 <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z" />
               </svg>
               <span>Facebook</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Demo Fast Login Buttons */}
-        <div className="space-y-3 pt-4 border-t border-white/5">
-          <div className="text-center">
-            <span className="text-xxs uppercase tracking-wider text-slate-400 font-bold bg-slate-900/60 px-2 py-0.5 rounded border border-white/5">
-              Demo Fast Pass
-            </span>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              onClick={() => handleDemoLogin('user')}
-              disabled={loading}
-              className="flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-white/5 border border-white/10 text-indigo-300 hover:bg-white/10 hover:border-indigo-500/30 hover:text-white transition-all disabled:opacity-50"
-            >
-              <UserCheck className="h-3.5 w-3.5" />
-              <span>Standard User</span>
-            </button>
-            <button
-              onClick={() => handleDemoLogin('admin')}
-              disabled={loading}
-              className="flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-white/5 border border-white/10 text-cyan-300 hover:bg-white/10 hover:border-cyan-500/30 hover:text-white transition-all disabled:opacity-50"
-            >
-              <ShieldAlert className="h-3.5 w-3.5" />
-              <span>Admin User</span>
             </button>
           </div>
         </div>
