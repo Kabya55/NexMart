@@ -190,15 +190,14 @@ import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../../context/AuthContext';
 import { authClient } from '../../lib/auth-client';
-import { ShoppingBag, Mail, Lock, AlertCircle, ArrowRight, UserCheck, ShieldAlert } from 'lucide-react';
+import { ShoppingBag, Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react';
 
 export default function LoginPage() {
-  const { login, demoLogin } = useAuth();
+  const { login } = useAuth();
 
   // Independent loading states
   const [error, setError] = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [demoLoading, setDemoLoading] = useState<'user' | 'admin' | null>(null);
   const [socialLoading, setSocialLoading] = useState<'google' | 'facebook' | null>(null);
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -223,17 +222,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleDemoLogin = async (role: 'user' | 'admin') => {
-    setError(null);
-    setDemoLoading(role);
-    try {
-      await demoLogin(role);
-    } catch (err: any) {
-      setError(err.message || 'Demo login failed.');
-      setDemoLoading(null);
-    }
-  };
-
   const handleSocialLogin = async (provider: 'google' | 'facebook') => {
     setError(null);
     setSocialLoading(provider);
@@ -253,7 +241,7 @@ export default function LoginPage() {
     }
   };
 
-  const isAnyLoading = isLoggingIn || demoLoading !== null || socialLoading !== null;
+  const isAnyLoading = isLoggingIn || socialLoading !== null;
 
   return (
     <div className="flex-grow flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -338,37 +326,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {/* Demo Logins */}
-        <div className="pt-2 grid grid-cols-2 gap-3">
-          <button
-            type="button"
-            onClick={() => handleDemoLogin('user')}
-            disabled={isAnyLoading}
-            className="flex items-center justify-center space-x-2 px-3 py-2 rounded-xl text-xs font-medium bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 hover:bg-indigo-500/20 hover:text-indigo-200 transition-all disabled:opacity-50"
-          >
-            {demoLoading === 'user' ? (
-              <span className="h-3.5 w-3.5 border-2 border-indigo-300 border-t-transparent rounded-full animate-spin"></span>
-            ) : (
-              <UserCheck className="h-3.5 w-3.5" />
-            )}
-            <span>Demo User</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => handleDemoLogin('admin')}
-            disabled={isAnyLoading}
-            className="flex items-center justify-center space-x-2 px-3 py-2 rounded-xl text-xs font-medium bg-rose-500/10 border border-rose-500/20 text-rose-300 hover:bg-rose-500/20 hover:text-rose-200 transition-all disabled:opacity-50"
-          >
-            {demoLoading === 'admin' ? (
-              <span className="h-3.5 w-3.5 border-2 border-rose-300 border-t-transparent rounded-full animate-spin"></span>
-            ) : (
-              <ShieldAlert className="h-3.5 w-3.5" />
-            )}
-            <span>Demo Admin</span>
-          </button>
-        </div>
-
-        {/* Social Login Buttons */}
+{/* Social Login Buttons */}
         <div className="space-y-3 pt-4 border-t border-white/5">
           <div className="text-center">
             <span className="text-xxs uppercase tracking-wider text-slate-400 font-bold bg-slate-900/60 px-2 py-0.5 rounded border border-white/5">
