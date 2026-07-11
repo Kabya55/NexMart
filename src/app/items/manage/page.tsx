@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../../../context/AuthContext';
 import { apiFetch } from '../../../utils/api';
-import { Settings, Eye, Trash2,  AlertCircle, ShieldAlert, PlusCircle, Check } from 'lucide-react';
+import { Settings, Eye, Trash2, Edit3, AlertCircle, ShieldAlert, PlusCircle, Check } from 'lucide-react';
 
 export default function ManageItemsPage() {
   const { user, loading: authLoading } = useAuth();

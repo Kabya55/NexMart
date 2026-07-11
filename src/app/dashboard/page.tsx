@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { apiFetch } from '../../utils/api';
 import Link from 'next/link';
 import { 
-  User, Settings, Heart, PlusCircle, Trash2, Eye, 
+  User, Settings, Heart, PlusCircle, Trash2, Eye, Edit3,
   BarChart3, Users, ShoppingBag, DollarSign, Bookmark,
   AlertCircle, Check, ArrowRight, ShieldAlert
 } from 'lucide-react';
