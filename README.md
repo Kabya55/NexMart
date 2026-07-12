@@ -4,13 +4,27 @@ NexMart is a Premium Tech Listings & Smart Gadgets Store. It is a full-stack e-c
 
 ## 🚀 Features
 
-- **Modern Tech Stack**: Built with [Next.js 16](https://nextjs.org/) (App Router) and React 19.
-- **Secure Authentication**: Integrated with [Better Auth](https://better-auth.com/) for reliable and secure authentication, featuring Google OAuth and credential-based login.
-- **Database**: Powered by [MongoDB](https://www.mongodb.com/) for fast and scalable data storage.
-- **Responsive Design**: Beautiful, responsive, and modern UI crafted with [Tailwind CSS v4](https://tailwindcss.com/).
-- **User Dashboard**: Personalized dashboard for users to track their favorite gadgets and manage their watchlist.
-- **Role-based Access**: Admin and standard user roles to separate management functionalities from basic user features.
+NexMart offers a rich set of features tailored specifically for both general users and administrators, ensuring a seamless shopping and management experience.
 
+### 👤 For General Users
+- **Secure Authentication**: Sign up and log in securely using Email/Password or **Google OAuth** (powered by Better Auth).
+- **Personalized Dashboard**: A dedicated user dashboard to manage personal details and track activities.
+- **Explore Gadgets**: Browse through a wide variety of premium tech listings and smart gadgets.
+- **Watchlist Management**: Add favorite items to your personal watchlist to monitor prices and availability. You can easily add or remove items from your dashboard.
+- **Interactive UI**: Enjoy a modern, responsive, and aesthetically pleasing interface with smooth animations.
+- **Detailed Product Views**: View comprehensive details, images, and specifications of every listed gadget.
+
+### 👑 For Administrators (Admins)
+- **Admin Dashboard**: A comprehensive admin panel to oversee the entire platform.
+- **Manage Listings**: Full CRUD (Create, Read, Update, Delete) capabilities to add new gadgets, update existing product details, and remove outdated items.
+- **Platform Analytics**: Track overall marketplace metrics, total listings, and active users right from the dashboard.
+- **Access Control**: Secure role-based access ensuring only admins can modify or delete core platform data.
+
+### 🛠️ Technical Highlights
+- **Framework**: Built with [Next.js 16](https://nextjs.org/) (App Router) and React 19.
+- **Authentication**: Integrated with [Better Auth](https://better-auth.com/) for reliable session management.
+- **Database**: Powered by [MongoDB](https://www.mongodb.com/) for fast and scalable data storage.
+- **Styling**: Beautiful, responsive, and modern UI crafted with [Tailwind CSS v4](https://tailwindcss.com/).
 ## 🛠️ Getting Started
 
 ### Prerequisites
