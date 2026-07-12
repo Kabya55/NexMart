@@ -1,60 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NexMart 🛒
 
-## Getting Started
+NexMart is a Premium Tech Listings & Smart Gadgets Store. It is a full-stack e-commerce and gadget listing platform built with the latest web technologies, offering users a seamless experience to explore, watch, and manage premium tech products.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Modern Tech Stack**: Built with [Next.js 16](https://nextjs.org/) (App Router) and React 19.
+- **Secure Authentication**: Integrated with [Better Auth](https://better-auth.com/) for reliable and secure authentication, featuring Google OAuth and credential-based login.
+- **Database**: Powered by [MongoDB](https://www.mongodb.com/) for fast and scalable data storage.
+- **Responsive Design**: Beautiful, responsive, and modern UI crafted with [Tailwind CSS v4](https://tailwindcss.com/).
+- **User Dashboard**: Personalized dashboard for users to track their favorite gadgets and manage their watchlist.
+- **Role-based Access**: Admin and standard user roles to separate management functionalities from basic user features.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Make sure you have Node.js and npm (or yarn/pnpm/bun) installed on your machine.
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/Kabya55/NexMart.git
+   cd NexMart
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Environment Variables**:
+   Create a `.env` file in the root directory and add the following variables:
+   ```env
+   # Better Auth Config
+   BETTER_AUTH_SECRET=your_better_auth_secret
+   BETTER_AUTH_URL=http://localhost:3000
 
-## Deploy on Vercel
+   # Database
+   MONGODB_URI=your_mongodb_connection_string
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   # Google OAuth
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
 
-<!-- Client build optimization phase 38 at 2026-12-21T23:15:00.000Z -->
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-<!-- Client build optimization phase 39 at 2026-12-23T01:40:00.000Z -->
+## 📦 Deployment
 
-<!-- Client build optimization phase 40 at 2026-12-24T06:05:00.000Z -->
+This project is configured and optimized for deployment on [Vercel](https://vercel.com/). Ensure that you add all the necessary environment variables in your Vercel project settings before deploying.
 
-<!-- Client build optimization phase 41 at 2026-12-25T08:06:00.000Z -->
+## 🤝 Contributing
 
-<!-- Client build optimization phase 42 at 2026-12-26T10:59:00.000Z -->
-
-<!-- Client build optimization phase 43 at 2026-12-27T14:55:00.000Z -->
-
-<!-- Client build optimization phase 44 at 2026-12-28T17:42:00.000Z -->
-
-<!-- Client build optimization phase 45 at 2026-12-29T21:05:00.000Z -->
-
-<!-- Client build optimization phase 46 at 2026-12-30T22:25:00.000Z -->
-
-<!-- Client build optimization phase 47 at 2027-01-01T02:07:00.000Z -->
-
-<!-- Client build optimization phase 48 at 2027-01-02T05:20:00.000Z -->
-
-<!-- Client build optimization phase 49 at 2027-01-03T06:49:00.000Z -->
+Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
